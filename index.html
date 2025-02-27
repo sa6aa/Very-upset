@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Integration Example</title>
+</head>
+<body>
+    <h1>API Key Validation</h1>
+    <button id="generateKeyBtn">Generate API Key</button>
+    <p id="apiKey"></p>
+    <button id="validateKeyBtn">Validate API Key</button>
+    <p id="validationResult"></p>
+
+    <script>
+        document.getElementById('generateKeyBtn').addEventListener('click', function() {
+            fetch('https://your-vercel-app.vercel.app/generate_key', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username: 'user1' })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('apiKey').innerText = 'API Key: ' + data.api_key;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        document.getElementById('validateKeyBtn').addEventListener('click', function() {
+            const apiKey = document.getElementById('apiKey').innerText.split('API Key: ')[1];
+            fetch('https://your-vercel-app.vercel.app/validate_key', {
+                method: 'POST',
+                headers: {
